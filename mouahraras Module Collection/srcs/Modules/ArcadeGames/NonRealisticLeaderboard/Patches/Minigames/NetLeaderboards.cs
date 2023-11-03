@@ -28,16 +28,16 @@ namespace mouahrarasModuleCollection.ArcadeGames.NonRealisticLeaderboard.Patches
 
 		private static bool GetScoresPrefix(NetLeaderboards __instance, ref List<KeyValuePair<string, int>> __result)
 		{
-			if (!ModEntry.Config.ArcadeGamesPayToPlayNonRealisticLeaderboard || !IsCalledFromMineCart())
+			if (!ModEntry.Config.ArcadeGamesPayToPlayNonRealisticLeaderboard || !IsCalledFromMineCart() || Game1.player.team.junimoKartScores.entries.Count == 0)
 				return true;
 
 			__result = new()
             {
-                new KeyValuePair<string, int>("Lewis", 50000),
-                new KeyValuePair<string, int>("Shane", 25000),
-                new KeyValuePair<string, int>("Sam", 10000),
-                new KeyValuePair<string, int>("Abigail", 5000),
-                new KeyValuePair<string, int>("Vincent", 250)
+                new KeyValuePair<string, int>(Game1.getCharacterFromName("Lewis").displayName, 50000),
+                new KeyValuePair<string, int>(Game1.getCharacterFromName("Shane").displayName, 25000),
+                new KeyValuePair<string, int>(Game1.getCharacterFromName("Sam").displayName, 10000),
+                new KeyValuePair<string, int>(Game1.getCharacterFromName("Abigail").displayName, 5000),
+                new KeyValuePair<string, int>(Game1.getCharacterFromName("Vincent").displayName, 250)
             };
 
 			foreach (NetLeaderboardsEntry entry in __instance.entries)
