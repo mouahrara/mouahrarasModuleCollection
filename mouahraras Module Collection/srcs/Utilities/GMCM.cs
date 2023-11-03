@@ -184,10 +184,6 @@ namespace mouahrarasModuleCollection.Utilities
 				mod: ModEntry.ModManifest,
 				text: () => ModEntry.Helper.Translation.Get("GMCM.SubModules.NotRealisticLeaderboard.Description")
 			);
-			gmcm.AddParagraph(
-				mod: ModEntry.ModManifest,
-				text: () => ModEntry.Helper.Translation.Get("GMCM.SubModules.NotRealisticLeaderboard.AdditionalInformation")
-			);
 			gmcm.AddBoolOption(
 				mod: ModEntry.ModManifest,
 				name: () => ModEntry.Helper.Translation.Get("GMCM.SubModules.Generic.Enabled.Title"),

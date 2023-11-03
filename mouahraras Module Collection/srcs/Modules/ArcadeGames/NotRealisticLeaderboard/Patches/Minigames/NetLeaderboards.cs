@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System.Linq;
+using System.Collections.Generic;
 using HarmonyLib;
+using StardewValley;
 using StardewValley.Minigames;
 
 namespace mouahrarasModuleCollection.ArcadeGames.NotRealisticLeaderboard.Patches
@@ -10,16 +12,41 @@ namespace mouahrarasModuleCollection.ArcadeGames.NotRealisticLeaderboard.Patches
 		{
 			harmony.Patch(
 				original: AccessTools.Method(typeof(NetLeaderboards), nameof(NetLeaderboards.GetScores)),
-				postfix: new HarmonyMethod(typeof(NetLeaderboardsPatch), nameof(GetScoresPostfix))
+				prefix: new HarmonyMethod(typeof(NetLeaderboardsPatch), nameof(GetScoresPrefix))
 			);
 		}
 
-		private static void GetScoresPostfix(NetLeaderboards __instance, ref List<KeyValuePair<string, int>> __result)
+		private static bool IsCalledFromMineCart()
 		{
-			if (!ModEntry.Config.ArcadeGamesPayToPlayNotRealisticLeaderboard)
-				return;
+			IEnumerable<System.Type> callingMethods = new System.Diagnostics.StackTrace().GetFrames()
+				.Select(frame => frame.GetMethod())
+				.Where(method => method != null)
+				.Select(method => method.DeclaringType);
 
-			List<KeyValuePair<string, int>> uniqueList = new();
+			return callingMethods.Any(type => type == typeof(MineCart));
+		}
+
+		private static bool GetScoresPrefix(NetLeaderboards __instance, ref List<KeyValuePair<string, int>> __result)
+		{
+			if (!ModEntry.Config.ArcadeGamesPayToPlayNotRealisticLeaderboard || !IsCalledFromMineCart())
+				return true;
+
+			__result = new()
+            {
+                new KeyValuePair<string, int>("Lewis", 50000),
+                new KeyValuePair<string, int>("Shane", 25000),
+                new KeyValuePair<string, int>("Sam", 10000),
+                new KeyValuePair<string, int>("Abigail", 5000),
+                new KeyValuePair<string, int>("Vincent", 250)
+            };
+
+			foreach (NetLeaderboardsEntry entry in __instance.entries)
+			{
+				__result.Add(new KeyValuePair<string, int>(entry.name.Value, entry.score.Value));
+			}
+
+			__result.Sort((KeyValuePair<string, int> a, KeyValuePair<string, int> b) => a.Value.CompareTo(b.Value));
+			__result.Reverse();
 
 			for (int i = 0; i < __result.Count; i++)
 			{
@@ -34,12 +61,13 @@ namespace mouahrarasModuleCollection.ArcadeGames.NotRealisticLeaderboard.Patches
 					}
 				}
 
-				if (!isDuplicate)
+				if (isDuplicate)
 				{
-					uniqueList.Add(__result[i]);
+					__result.RemoveAt(i);
+					i--;
 				}
 			}
-			__result = uniqueList;
+			return false;
 		}
 	}
 }
