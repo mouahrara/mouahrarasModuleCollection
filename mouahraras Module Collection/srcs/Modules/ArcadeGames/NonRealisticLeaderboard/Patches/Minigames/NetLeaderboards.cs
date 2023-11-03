@@ -4,7 +4,7 @@ using HarmonyLib;
 using StardewValley;
 using StardewValley.Minigames;
 
-namespace mouahrarasModuleCollection.ArcadeGames.NotRealisticLeaderboard.Patches
+namespace mouahrarasModuleCollection.ArcadeGames.NonRealisticLeaderboard.Patches
 {
 	internal class NetLeaderboardsPatch
 	{
@@ -28,7 +28,7 @@ namespace mouahrarasModuleCollection.ArcadeGames.NotRealisticLeaderboard.Patches
 
 		private static bool GetScoresPrefix(NetLeaderboards __instance, ref List<KeyValuePair<string, int>> __result)
 		{
-			if (!ModEntry.Config.ArcadeGamesPayToPlayNotRealisticLeaderboard || !IsCalledFromMineCart())
+			if (!ModEntry.Config.ArcadeGamesPayToPlayNonRealisticLeaderboard || !IsCalledFromMineCart())
 				return true;
 
 			__result = new()

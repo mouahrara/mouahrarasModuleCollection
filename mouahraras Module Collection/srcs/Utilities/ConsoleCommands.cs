@@ -33,7 +33,7 @@ namespace mouahrarasModuleCollection.Utilities
 		{
 			ModEntry.Config.ArcadeGamesPayToPlay = false;
 			ModEntry.Config.ArcadeGamesPayToPlayKonamiCode = false;
-			ModEntry.Config.ArcadeGamesPayToPlayNotRealisticLeaderboard = false;
+			ModEntry.Config.ArcadeGamesPayToPlayNonRealisticLeaderboard = false;
 			ModEntry.Config.ClintsShopSimultaneousServices = false;
 			ModEntry.Config.ClintsShopGeodesAutoProcess = false;
 			ModEntry.Config.FestivalsEndTime = false;
