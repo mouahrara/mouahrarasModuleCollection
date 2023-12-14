@@ -15,9 +15,9 @@ namespace mouahrarasModuleCollection.ArcadeGames.KonamiCode.Patches
 			);
 		}
 
-		private static bool GlobalChatInfoMessagePrefix(Multiplayer __instance, string messageKey)
+		private static bool GlobalChatInfoMessagePrefix(string messageKey)
 		{
-			if (!ModEntry.Config.ArcadeGamesPayToPlayKonamiCode || !KonamiCodeUtility.GetInfiniteLivesMode())
+			if (!ModEntry.Config.ArcadeGamesPayToPlayKonamiCode || !KonamiCodeUtility.InfiniteLivesMode)
 				return true;
 
 			if (messageKey.Equals("PrairieKing") || messageKey.Equals("JunimoKart"))

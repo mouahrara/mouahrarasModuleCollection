@@ -18,7 +18,7 @@ namespace mouahrarasModuleCollection.FarmView.Zoom.Patches
 			);
 		}
 
-		private static void ZoomLevelPostfix(Options __instance, ref float __result)
+		private static void ZoomLevelPostfix(ref float __result)
 		{
 			if (!Context.IsWorldReady || !ModEntry.Config.FarmViewZoom)
 				return;
@@ -29,7 +29,7 @@ namespace mouahrarasModuleCollection.FarmView.Zoom.Patches
 			if (!Game1.activeClickableMenu.shouldClampGamePadCursor())
 				return;
 
-			float nextZoomLevel = __result + ZoomUtility.GetZoomLevel() * ModEntry.Config.FarmViewZoomMultiplier / 8000f;
+			float nextZoomLevel = __result + ZoomUtility.ZoomLevel * ModEntry.Config.FarmViewZoomMultiplier / 8000f;
 			bool viewportWidthHasOrWillOverflowMapWidth;
 			bool viewportHeightHasOrWillOverflowMapHeight;
 
@@ -63,12 +63,12 @@ namespace mouahrarasModuleCollection.FarmView.Zoom.Patches
 					else
 						__result = Math.Min(__result, zoomLevelBasedOnMaxViewportHeight);
 				}
-				ZoomUtility.SetZoomLevelMinReached(true);
+				ZoomUtility.ZoomLevelMinReached = true;
 			}
 			else
 			{
 				__result = nextZoomLevel;
-				ZoomUtility.SetZoomLevelMinReached(false);
+				ZoomUtility.ZoomLevelMinReached = false;
 			}
 			Game1.clampViewportToGameMap();
 			Game1.game1.refreshWindowSettings();

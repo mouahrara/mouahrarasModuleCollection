@@ -36,7 +36,7 @@ namespace mouahrarasModuleCollection.Festivals.EndTime.Patches
 							new(OpCodes.Call, typeof(EventPatch).GetMethod("GetFestivalEndTime", BindingFlags.NonPublic | BindingFlags.Static))
 						};
 						list.InsertRange(i, replacementInstructions);
-						i += replacementInstructions.Count();
+						i += replacementInstructions.Length;
 						list.RemoveAt(i);
 					}
 				}
@@ -49,7 +49,7 @@ namespace mouahrarasModuleCollection.Festivals.EndTime.Patches
 			}
 		}
 
-		private static Int32 GetFestivalEndTime(Event __instance, Int32 vanillaEndTime)
+		private static int GetFestivalEndTime(Event __instance, int vanillaEndTime)
 		{
 			if (!ModEntry.Config.FestivalsEndTime || !__instance.isFestival)
 				return vanillaEndTime;
